@@ -27,7 +27,8 @@
     "init": "npm run create-renderer && npm run integrate-renderer && npm install",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,css,md}\""
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "commit": "cz"
   },
   "devDependencies": {
     "@npmcli/map-workspaces": "4.0.2",
@@ -43,5 +44,10 @@
   },
   "dependencies": {
     "@vite-electron-builder/main": "*"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
