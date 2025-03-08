@@ -31,6 +31,7 @@
     "commit": "cz"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^19.8.0",
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
     "@types/node": "22.10.2",
