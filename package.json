@@ -24,7 +24,10 @@
     "typecheck": "npm run typecheck -ws --if-present",
     "create-renderer": "cd packages && npm create vite@latest renderer",
     "integrate-renderer": "npm start --workspace @vite-electron-builder/integrate-renderer",
-    "init": "npm run create-renderer && npm run integrate-renderer && npm install"
+    "init": "npm run create-renderer && npm run integrate-renderer && npm install",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "devDependencies": {
     "@npmcli/map-workspaces": "4.0.2",
@@ -32,8 +35,11 @@
     "@types/node": "22.10.2",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "glob": "11.0.0",
-    "playwright": "1.49.0"
+    "playwright": "1.49.0",
+    "prettier": "^3.5.3"
   },
   "dependencies": {
     "@vite-electron-builder/main": "*"

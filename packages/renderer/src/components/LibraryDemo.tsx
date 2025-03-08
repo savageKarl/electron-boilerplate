@@ -23,7 +23,9 @@ const LibraryDemo: React.FC = () => {
     const fetchTodos = async () => {
       setLoading(true);
       try {
-        const response = await axios.get<Todo[]>('https://jsonplaceholder.typicode.com/todos?_limit=5');
+        const response = await axios.get<Todo[]>(
+          'https://jsonplaceholder.typicode.com/todos?_limit=5'
+        );
         setTodos(response.data);
         setFilteredTodos(response.data);
       } catch (error) {
@@ -39,9 +41,7 @@ const LibraryDemo: React.FC = () => {
 
   // 使用 lodash 的 debounce 函数处理搜索
   const handleSearch = debounce((value: string) => {
-    const filtered = todos.filter(todo =>
-      todo.title.toLowerCase().includes(value.toLowerCase())
-    );
+    const filtered = todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase()));
     setFilteredTodos(filtered);
   }, 300);
 
@@ -54,20 +54,24 @@ const LibraryDemo: React.FC = () => {
 
   // 使用 immer 更新状态
   const toggleTodoStatus = (id: number) => {
-    setTodos(produce(draft => {
-      const todo = draft.find(t => t.id === id);
-      if (todo) {
-        todo.completed = !todo.completed;
-      }
-    }));
+    setTodos(
+      produce((draft) => {
+        const todo = draft.find((t) => t.id === id);
+        if (todo) {
+          todo.completed = !todo.completed;
+        }
+      })
+    );
 
     // 同时更新过滤后的列表
-    setFilteredTodos(produce(draft => {
-      const todo = draft.find(t => t.id === id);
-      if (todo) {
-        todo.completed = !todo.completed;
-      }
-    }));
+    setFilteredTodos(
+      produce((draft) => {
+        const todo = draft.find((t) => t.id === id);
+        if (todo) {
+          todo.completed = !todo.completed;
+        }
+      })
+    );
   };
 
   return (
@@ -87,15 +91,15 @@ const LibraryDemo: React.FC = () => {
           loading={loading}
           bordered
           dataSource={filteredTodos}
-          renderItem={todo => (
+          renderItem={(todo) => (
             <List.Item
               actions={[
                 <Button
-                  type={todo.completed ? "primary" : "default"}
+                  type={todo.completed ? 'primary' : 'default'}
                   onClick={() => toggleTodoStatus(todo.id)}
                 >
                   {todo.completed ? '已完成' : '未完成'}
-                </Button>
+                </Button>,
               ]}
             >
               <div className={`${todo.completed ? 'line-through text-gray-400' : ''}`}>
@@ -107,9 +111,10 @@ const LibraryDemo: React.FC = () => {
 
         <div className="mt-4">
           <Text type="secondary">
-            • Axios 用于获取远程数据<br />
-            • Immer 用于不可变状态更新<br />
-            • Lodash 用于实用函数 (debounce, capitalize)
+            • Axios 用于获取远程数据
+            <br />
+            • Immer 用于不可变状态更新
+            <br />• Lodash 用于实用函数 (debounce, capitalize)
           </Text>
         </div>
       </Space>

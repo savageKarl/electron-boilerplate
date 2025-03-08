@@ -1,6 +1,6 @@
-import './App.css'
-import TestComponent from './components/TestComponent'
-import LibraryDemo from './components/LibraryDemo'
+import './App.css';
+import TestComponent from './components/TestComponent';
+import LibraryDemo from './components/LibraryDemo';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <LibraryDemo />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
