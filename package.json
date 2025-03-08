@@ -28,19 +28,26 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "commit": "cz"
+    "commit": "cz",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@npmcli/map-workspaces": "4.0.2",
     "@playwright/test": "1.49.0",
     "@types/node": "22.10.2",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
     "electron": "33.2.1",
     "electron-builder": "26.0.0-alpha.8",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "glob": "11.0.0",
+    "lint-staged": "^15.4.3",
     "playwright": "1.49.0",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "simple-git-hooks": "^2.11.1"
   },
   "dependencies": {
     "@vite-electron-builder/main": "*"
@@ -52,6 +59,15 @@
   },
   "simple-git-hooks": {
     "pre-commit": "npm run lint-staged",
-    "commit-msg": "npx --no -- commitlint --edit ${1}"
+    "commit-msg": "node verify-commit.js"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
