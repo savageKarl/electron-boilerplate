@@ -65,7 +65,7 @@ const rendererConfig = {
       ...globals.es2021,
     },
     parserOptions: {
-      project: './packages/renderer/tsconfig.app.json',
+      project: ['./packages/renderer/tsconfig.app.json', './packages/renderer/tsconfig.node.json'],
     },
   },
   plugins: {
