@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Card, List, Input, Button, Space, Typography } from 'antd';
 import axios from 'axios';
-import { produce } from 'immer';
-import { debounce, capitalize } from 'lodash';
-import { Button, Card, Input, List, Space, Typography, message } from 'antd';
+import { capitalize } from 'lodash';
 
-const { Title, Text } = Typography;
+const { Text, Title } = Typography;
 
 interface Todo {
   id: number;
@@ -14,71 +13,55 @@ interface Todo {
 
 const LibraryDemo: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
-  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
-  // 使用 axios 获取数据
   useEffect(() => {
-    const fetchTodos = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get<Todo[]>(
-          'https://jsonplaceholder.typicode.com/todos?_limit=5'
-        );
-        setTodos(response.data);
-        setFilteredTodos(response.data);
-      } catch (error) {
-        message.error('获取数据失败');
-        console.error('获取数据失败:', error);
-      } finally {
+    // 使用 Axios 获取数据
+    axios
+      .get('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => {
+        // 只获取前10条数据
+        setTodos(response.data.slice(0, 10));
         setLoading(false);
-      }
-    };
-
-    fetchTodos();
+      })
+      .catch((error) => {
+        console.error('获取数据失败:', error);
+        setLoading(false);
+      });
   }, []);
 
-  // 使用 lodash 的 debounce 函数处理搜索
-  const handleSearch = debounce((value: string) => {
-    const filtered = todos.filter((todo) => todo.title.toLowerCase().includes(value.toLowerCase()));
-    setFilteredTodos(filtered);
-  }, 300);
-
-  // 处理搜索输入
+  // 使用 lodash 处理数据
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchText(value);
-    handleSearch(value);
+    setSearchText(e.target.value);
   };
 
-  // 使用 immer 更新状态
-  const toggleTodoStatus = (id: number) => {
-    setTodos(
-      produce((draft) => {
-        const todo = draft.find((t) => t.id === id);
-        if (todo) {
-          todo.completed = !todo.completed;
-        }
-      })
-    );
+  // 过滤任务
+  const filteredTodos = todos.filter((todo) =>
+    todo.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
-    // 同时更新过滤后的列表
-    setFilteredTodos(
-      produce((draft) => {
-        const todo = draft.find((t) => t.id === id);
-        if (todo) {
-          todo.completed = !todo.completed;
-        }
-      })
+  // 切换任务状态
+  const toggleTodoStatus = (id: number) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
     );
   };
 
   return (
-    <Card title={<Title level={3}>库集成演示</Title>} className="w-full max-w-2xl mx-auto my-4">
+    <Card
+      title={
+        <Title level={3} className="dark:text-gray-200">
+          库集成演示
+        </Title>
+      }
+      className="w-full max-w-2xl mx-auto my-4 custom-card transition-colors duration-300"
+    >
       <Space direction="vertical" className="w-full">
         <div>
-          <Text strong>搜索任务：</Text>
+          <Text strong className="dark:text-gray-300">
+            搜索任务：
+          </Text>
           <Input
             placeholder="输入关键词搜索"
             value={searchText}
@@ -91,6 +74,7 @@ const LibraryDemo: React.FC = () => {
           loading={loading}
           bordered
           dataSource={filteredTodos}
+          className="transition-colors duration-300"
           renderItem={(todo) => (
             <List.Item
               actions={[
@@ -102,7 +86,11 @@ const LibraryDemo: React.FC = () => {
                 </Button>,
               ]}
             >
-              <div className={`${todo.completed ? 'line-through text-gray-400' : ''}`}>
+              <div
+                className={`${
+                  todo.completed ? 'line-through text-gray-400' : 'dark:text-gray-300'
+                }`}
+              >
                 {capitalize(todo.title)}
               </div>
             </List.Item>
@@ -110,11 +98,11 @@ const LibraryDemo: React.FC = () => {
         />
 
         <div className="mt-4">
-          <Text type="secondary">
+          <Text type="secondary" className="dark:text-gray-400">
             • Axios 用于获取远程数据
             <br />
-            • Immer 用于不可变状态更新
-            <br />• Lodash 用于实用函数 (debounce, capitalize)
+            • Lodash 用于处理文本大小写
+            <br />• Ant Design 组件用于界面展示
           </Text>
         </div>
       </Space>

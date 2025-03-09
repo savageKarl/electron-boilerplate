@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@config "../tailwind.config.js";
+@import 'tailwindcss';
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -13,8 +14,23 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --background-color: #ffffff;
+  --text-color: rgba(0, 0, 0, 0.85);
 }
 
+.dark {
+  --background-color: #141414;
+  --text-color: rgba(255, 255, 255, 0.85);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -24,4 +40,18 @@
   a:hover {
     color: #747bff;
   }
+}
+
+/* 自定义组件暗黑模式样式 */
+.dark .custom-card {
+  background-color: #1f1f1f;
+  border-color: #303030;
+}
+
+/* 确保 Ant Design 组件在暗黑模式下有正确的过渡效果 */
+.ant-component-transition {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
