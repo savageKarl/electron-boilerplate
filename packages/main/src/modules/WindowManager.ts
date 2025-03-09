@@ -30,6 +30,10 @@ class WindowManager implements AppModule {
   async createWindow(): Promise<BrowserWindow> {
     const browserWindow = new BrowserWindow({
       show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
+      autoHideMenuBar: true,
+      // resizable: false,
+      width: 1024, // 修改窗口宽度为1024
+      height: 768, // 修改窗口高度为768
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
