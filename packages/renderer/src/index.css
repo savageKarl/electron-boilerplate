@@ -42,16 +42,36 @@ body {
   }
 }
 
-/* 自定义组件暗黑模式样式 */
-.dark .custom-card {
-  background-color: #1f1f1f;
-  border-color: #303030;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-/* 确保 Ant Design 组件在暗黑模式下有正确的过渡效果 */
-.ant-component-transition {
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 适配暗色主题 */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: #1f1f1f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #666;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
 }
